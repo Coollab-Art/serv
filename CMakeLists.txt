@@ -16,6 +16,8 @@ else()
 endif()
 
 # ---Add source files---
+target_include_directories(serv PUBLIC
+    include)
 target_include_directories(serv PRIVATE
     lib/civetweb/include)
 target_sources(serv PRIVATE
