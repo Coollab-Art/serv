@@ -2,18 +2,15 @@
 
 #include <functional>
 
-namespace serv
-{
-struct Get
-{
-};
+namespace serv {
 
-struct Post
-{
-};
+struct Get {};
+
+struct Post {};
 
 using RequestHandler = std::function<void(std::string_view)>;
 
 void init(RequestHandler callback);
 void shut_down();
+
 } // namespace serv

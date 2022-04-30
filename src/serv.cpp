@@ -4,10 +4,9 @@
 #include <iostream>
 #include "CivetServer.h"
 
-namespace serv
-{
-class Handler : public CivetHandler
-{
+namespace serv {
+
+class Handler : public CivetHandler {
 private:
     RequestHandler _handler;
 
@@ -42,6 +41,7 @@ public:
         }
         return handleAll(conn);
     }
+
     bool handlePost(CivetServer*, mg_connection* conn)
     {
         std::string s;
@@ -58,8 +58,7 @@ public:
 
     explicit Handler(RequestHandler handler)
         : _handler{handler}
-    {
-    }
+    {}
 };
 
 void init(RequestHandler handler)
