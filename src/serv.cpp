@@ -1,5 +1,3 @@
-#pragma once
-
 #include "../include/serv/serv.hpp"
 #include <iostream>
 #include "CivetServer.h"
