@@ -4,15 +4,21 @@ add_library(serv)
 add_library(serv::serv ALIAS serv)
 target_compile_features(serv PRIVATE cxx_std_17)
 
-if (SERV_ENABLE_WARNINGS_AS_ERRORS)
-    message("-- [serv] Enabling warnings as errors for serv")
-    if(MSVC)
-        target_compile_options(serv PRIVATE /WX /W4)
-    else()
-        target_compile_options(serv PRIVATE -Werror -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wno-unknown-pragmas)
-    endif()
+# Set warning level
+if(MSVC)
+    target_compile_options(serv PRIVATE /W4)
 else()
-    message("-- [serv] Not using warnings as errors for serv")
+    target_compile_options(serv PRIVATE -Wall -Wextra -Wpedantic -pedantic-errors -Wconversion -Wno-unknown-pragmas)
+endif()
+
+# Maybe enable warnings as errors
+set(WARNINGS_AS_ERRORS_FOR_SERV OFF CACHE BOOL "ON iff you want to treat warnings as errors")
+if(WARNINGS_AS_ERRORS_FOR_SERV)
+    if(MSVC)
+        target_compile_options(serv PRIVATE /WX)
+    else()
+        target_compile_options(serv PRIVATE -Werror)
+    endif()
 endif()
 
 # ---Add source files---
