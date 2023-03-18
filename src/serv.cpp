@@ -63,8 +63,10 @@ void init(RequestHandler handler)
 {
     mg_init_library(0);
 
-    static CivetServer server({"listening_ports", "6002",
-                               "num_threads", "1"});
+    static CivetServer server(
+        {"listening_ports", "6002",
+         "num_threads", "1"}
+    );
 
     static Handler myHandler{handler};
     server.addHandler("/", myHandler);
