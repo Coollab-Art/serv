@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
+set(WARNINGS_AS_ERRORS_FOR_SERV OFF CACHE BOOL "ON iff you want to treat warnings as errors")
+
 add_library(serv)
 add_library(serv::serv ALIAS serv)
 target_compile_features(serv PRIVATE cxx_std_17)
@@ -12,7 +14,6 @@ else()
 endif()
 
 # Maybe enable warnings as errors
-set(WARNINGS_AS_ERRORS_FOR_SERV OFF CACHE BOOL "ON iff you want to treat warnings as errors")
 if(WARNINGS_AS_ERRORS_FOR_SERV)
     if(MSVC)
         target_compile_options(serv PRIVATE /WX)
@@ -22,15 +23,16 @@ if(WARNINGS_AS_ERRORS_FOR_SERV)
 endif()
 
 # ---Add source files---
-target_include_directories(serv PUBLIC
-    include)
-target_include_directories(serv PRIVATE
-    lib/civetweb/include)
+if(WARNINGS_AS_ERRORS_FOR_SERV)
+    target_include_directories(serv PUBLIC include)
+else()
+    target_include_directories(serv SYSTEM PUBLIC include)
+endif()
+
+target_include_directories(serv SYSTEM PRIVATE lib/civetweb/include)
 target_sources(serv PRIVATE
     src/serv.cpp
     lib/civetweb/src/civetweb.c
     lib/civetweb/src/CivetServer.cpp
-)
-
-# ---CivetWeb config---
+) # ---CivetWeb config---
 target_compile_definitions(serv PRIVATE NO_SSL)
