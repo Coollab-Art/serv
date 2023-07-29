@@ -36,3 +36,4 @@ target_sources(serv PRIVATE
     lib/civetweb/src/CivetServer.cpp
 ) # ---CivetWeb config---
 target_compile_definitions(serv PRIVATE NO_SSL)
+install(FILES "lib/civetweb/LICENSE.md" DESTINATION "license/civetweb")
