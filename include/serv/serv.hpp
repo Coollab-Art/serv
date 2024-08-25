@@ -49,7 +49,9 @@ private:
 
 class Server {
 public:
-    explicit Server(std::string const& port, std::vector<std::pair<std::string, RequestCallback>> const& callbacks);
+    explicit Server(int port, std::vector<std::pair<std::string, RequestCallback>> const& callbacks);
+
+    auto port() const -> int { return _server->getListeningPorts()[0]; }
 
 private:
     std::unique_ptr<internal::CivetRAII> _raii{std::make_unique<internal::CivetRAII>()};

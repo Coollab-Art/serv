@@ -13,17 +13,13 @@ auto Request::get(std::string_view param) const -> std::optional<std::string>
     return std::nullopt;
 }
 
-Server::Server(std::string const& port, std::vector<std::pair<std::string, RequestCallback>> const& callbacks)
+Server::Server(int port, std::vector<std::pair<std::string, RequestCallback>> const& callbacks)
     : _server{std::make_unique<CivetServer>(std::vector<std::string>{
-          {"listening_ports", port,
+          {"listening_ports", std::to_string(port),
            "num_threads", "1"
           }
       })}
 {
-    if (_server->getContext() == nullptr)
-    {
-        throw std::runtime_error{"Creation of the server failed"};
-    }
     for (auto const& callback : callbacks)
         _handlers.emplace_back(callback.second);
     for (size_t i = 0; i < callbacks.size(); ++i)
