@@ -29,7 +29,7 @@ else()
     target_include_directories(serv SYSTEM PUBLIC include)
 endif()
 
-target_include_directories(serv SYSTEM PRIVATE lib/civetweb/include)
+target_include_directories(serv SYSTEM PUBLIC lib/civetweb/include)
 target_sources(serv PRIVATE
     src/serv.cpp
     lib/civetweb/src/civetweb.c
