@@ -5,6 +5,19 @@
 
 namespace serv {
 
+auto internal::Handler::handleGet(CivetServer*, mg_connection* connection) -> bool
+{
+    _callback(Request{connection});
+    mg_printf(connection,
+              "HTTP/1.1 200 OK\r\n"
+              "Content-Type: text/plain\r\n"
+              "Connection: close\r\n"
+              "Content-Length:  0\r\n"
+              "Access-Control-Allow-Origin: *\r\n" // Allow CORS from any origin
+              "\r\n");
+    return true;
+}
+
 auto Request::get(std::string_view param) const -> std::optional<std::string>
 {
     std::string res{};

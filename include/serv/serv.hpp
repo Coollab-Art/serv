@@ -35,18 +35,7 @@ public:
         : _callback{std::move(callback)}
     {}
 
-    auto handleGet(CivetServer*, mg_connection* connection) -> bool override
-    {
-        _callback(Request{connection});
-        mg_printf(connection,
-                  "HTTP/1.1 200 OK\r\n"
-                  "Content-Type: text/plain\r\n"
-                  "Connection: close\r\n"
-                  "Content-Length:  0\r\n"
-                  "Access-Control-Allow-Origin: *\r\n" // Allow CORS from any origin
-                  "\r\n");
-        return true;
-    }
+    auto handleGet(CivetServer*, mg_connection*) -> bool override;
 
 private:
     RequestCallback _callback;
