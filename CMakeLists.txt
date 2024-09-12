@@ -29,11 +29,18 @@ else()
     target_include_directories(serv SYSTEM PUBLIC include)
 endif()
 
-target_include_directories(serv SYSTEM PUBLIC lib/civetweb/include)
 target_sources(serv PRIVATE
     src/serv.cpp
+)
+
+# ---CivetWeb---
+add_library(civetweb)
+target_include_directories(civetweb SYSTEM PUBLIC lib/civetweb/include)
+target_sources(civetweb PRIVATE
     lib/civetweb/src/civetweb.c
     lib/civetweb/src/CivetServer.cpp
-) # ---CivetWeb config---
-target_compile_definitions(serv PRIVATE NO_SSL)
+)
+target_compile_definitions(civetweb PRIVATE NO_SSL)
+target_compile_options(civetweb PRIVATE -w)
+target_link_libraries(serv PUBLIC civetweb)
 install(FILES "lib/civetweb/LICENSE.md" DESTINATION "license/civetweb")
