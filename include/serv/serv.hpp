@@ -14,6 +14,7 @@ public:
         : _connection{connection}
     {}
     auto get(std::string_view param) const -> std::optional<std::string>;
+    auto route() const -> std::string;
 
 private:
     mg_connection* _connection{};

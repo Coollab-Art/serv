@@ -26,6 +26,11 @@ auto Request::get(std::string_view param) const -> std::optional<std::string>
     return std::nullopt;
 }
 
+auto Request::route() const -> std::string
+{
+    return mg_get_request_info(_connection)->local_uri;
+}
+
 Server::Server(int port, std::vector<std::pair<std::string, RequestCallback>> const& callbacks)
     : _server{std::make_unique<CivetServer>(std::vector<std::string>{
           {"listening_ports", std::to_string(port),
